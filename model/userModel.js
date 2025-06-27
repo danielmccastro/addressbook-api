@@ -16,3 +16,7 @@ const User = database.define("user", {
         allowNull: false,
     },
 }, { database, modelname: "user", tablename: "user" });
+
+User.hasMany(Contact, { foreignKey: 'id_user' });
+
+module.exports = User;
