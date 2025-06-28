@@ -28,7 +28,7 @@ A secure and organized RESTful API for managing users and their contact list. Bu
 ## Installation
 
 ```bash
-git clone https://github.com/your-username/addressbook-api.git
+git clone https://github.com/danielmccastro/addressbook-api.git
 cd addressbook-api
 npm install
 ```
