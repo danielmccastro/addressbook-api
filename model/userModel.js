@@ -15,8 +15,6 @@ const User = database.define("user", {
         type: Sequelize.STRING,
         allowNull: false,
     },
-}, { database, modelname: "user", tablename: "user" });
-
-User.hasMany(Contact, { foreignKey: 'id_user' });
+}, { database, modelName: "user", tableName: "user" });
 
 module.exports = User;

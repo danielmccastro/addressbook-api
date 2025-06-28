@@ -2,7 +2,7 @@ const User = require("../model/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-module.exports = class userController {
+module.exports = class UserController {
     static async userCreate(req, res) {
         const { email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -29,7 +29,7 @@ module.exports = class userController {
         }
         if (id_user_param === id_user_token) {
             try {
-                const user = await User.findByPk(id_user);
+                const user = await User.findByPk(req.decoded.id_user);
                 res.status(200).json(user);
             } catch (error) {
                 res.status(500).json({ error: error.message });
@@ -39,8 +39,8 @@ module.exports = class userController {
     }
 
     static async userUpdate(req, res) {
-        id_user_param = parseInt(req.params.id_user);
-        id_user_token = req.decoded.id_user;
+        const id_user_param = parseInt(req.params.id_user);
+        const id_user_token = req.decoded.id_user;
 
         const { email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -57,7 +57,7 @@ module.exports = class userController {
         }
         if (id_user_param === id_user_token) {
             try {
-                const user = await User.update(user, { where: { id_user: id_user_param } });
+                const userToUpdate = await User.update(user, { where: { id_user: id_user_param } });
                 res.status(200).json(user);
             } catch (error) {
                 res.status(500).json({ error: error.message });
@@ -66,8 +66,8 @@ module.exports = class userController {
     }
 
     static async userDelete(req, res) {
-        id_user_param = parseInt(req.params.id_user);
-        id_user_token = req.decoded.id_user;
+        const id_user_param = parseInt(req.params.id_user);
+        const id_user_token = req.decoded.id_user;
         if (isNaN(id_user_param)) {
             return res.status(400).json({ error: 'Invalid ID' });
         }
@@ -77,7 +77,7 @@ module.exports = class userController {
         if (id_user_param === id_user_token) {
             try {
                 const user = await User.destroy({ where: { id_user: id_user_param } });
-                res.status(200).json(user);
+                res.status(200).json({ message: 'User deleted successfully' });
             } catch (error) {
                 res.status(500).json({ error: error.message });
             }
@@ -94,7 +94,7 @@ module.exports = class userController {
                 const passwordMatch = await bcrypt.compare(password, user.password);
 
                 if (passwordMatch) {
-                    const token = jwt.sign({ id: user.id_user }, process.env.JWT_SECRET, { expiresIn: "1d" });
+                    const token = jwt.sign({ id_user: user.id_user }, process.env.SECRET, { expiresIn: "1d" });
                     res.status(200).json({ auth: true, token: token });
                 } else {
                     res.status(401).json({ error: "Invalid credentials" });

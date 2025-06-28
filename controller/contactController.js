@@ -2,7 +2,7 @@ const Contact = require("../model/contactModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-module.exports = class contactController {
+module.exports = class ContactController {
     static async contactCreate(req, res) {
         const { first_name, last_name, email, phone_number, address } = req.body;
         try {

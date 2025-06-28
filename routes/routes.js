@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
-const contactController = require('../controller/contactController');
-const userController = require('../controller/userController');
+const ContactController = require('../controller/contactController');
+const UserController = require('../controller/userController');
 const authenticate = require('../middleware/authMiddleware');
+
 
 router.get("/", (req, res) => res.json({ message: "Welcome to the addressbook API" }));
 
-router.get("/contacts", authenticate, contactController.contactRead);
-router.post("/contacts", authenticate, contactController.contactCreate);
-router.get("/contacts/:id_contact", authenticate, contactController.contactReadOne);
-router.put("/contacts/:id_contact", authenticate, contactController.contactUpdate);
-router.delete("/contacts/:id_contact", authenticate, contactController.contactDelete);
+router.get("/contacts", authenticate, ContactController.contactRead);
+router.post("/contacts", authenticate, ContactController.contactCreate);
+router.put("/contacts/:id_contact", authenticate, ContactController.contactUpdate); 
+router.delete("/contacts/:id_contact", authenticate, ContactController.contactDelete);
 
-router.post("/users", userController.userCreate);
-router.post("/login", userController.userLogin);
-router.get("/users/:id_user", authenticate, userController.userRead);
-router.put("/users/:id_user", authenticate, userController.userUpdate);
-router.delete("/users/:id_user", authenticate, userController.userDelete);
+router.post("/users", UserController.userCreate);
+router.post("/login", UserController.userLogin);
+router.get("/users/:id_user", authenticate, UserController.userRead);
+router.put("/users/:id_user", authenticate, UserController.userUpdate);
+router.delete("/users/:id_user", authenticate, UserController.userDelete);
 
 module.exports = router;

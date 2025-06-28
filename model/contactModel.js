@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const database = require('../db/db');
-const User = require('./userModel');
 
 const Contact = database.define("contact", {
     id_contact: {
@@ -28,8 +27,6 @@ const Contact = database.define("contact", {
         type: Sequelize.STRING,
         allowNull: false,
     }
-}, { database, modelname: "contact", tablename: "contact" });
-
-Contact.belongsTo(User, { foreignKey: "id_user" });
+}, { database, modelName: "contact", tableName: "contact" });
 
 module.exports = Contact;
